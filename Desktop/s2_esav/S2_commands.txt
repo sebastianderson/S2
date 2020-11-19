@@ -1,0 +1,14 @@
+#exercise 1
+ffmpeg -ss 00:00:30.0 -i BBB.avi -c copy -t 00:00:10.0 BBB_10.avi
+#exercise 2
+ffmpeg -i BBB_10.avi -vf "split=2[a][b],[b]histogram,format=yuva444p[hh],[a][hh]overlay"  BBB_HIST.avi 
+#exercise 3
+ffmpeg -i BBB_10.avi -s hd720 BBB_720p.avi
+ffmpeg -i BBB_10.avi -s hd720 -c:v libx264 -crf 23 -c:a aac -strict -2 BBB_720P2.avi
+ffmpeg -i BBB_10.avi -s hd480 -c:v libx264 -crf 23 -c:a aac -strict -2 BBB_480p.avi 
+ffmpeg -i BBB_10.avi -vf scale=320:240,setsar=1:1 BBB_302X240.avi
+ffmpeg -i BBB_10.avi -vf scale=160:120,setsar=1:1 BBB_160X120.avi
+#exercise 4
+ffmpeg -i BBB_10.avi -vn -acodec copy BBB-audio.mp4 
+ffmpeg -i BBB-audio.mp4 -ac 1 BBB-audio.wav
+ffmpeg -i BBB_10.avi -i BBB-audio.wav -shortest -c:v copy -c:a aac -b:a 256k -ac 1 BBB_mono.avi
